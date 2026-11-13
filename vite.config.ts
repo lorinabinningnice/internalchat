@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
+  // GitHub Pages project sites are served from /<repo-name>/. Local dev stays at /.
+  base: process.env.GITHUB_ACTIONS ? "/internalchat/" : "/",
   plugins: [react()],
   resolve: {
     alias: {

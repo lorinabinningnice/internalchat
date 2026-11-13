@@ -1,0 +1,62 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # The app itself (this repo) goes in ./internalchat
+      - uses: actions/checkout@v4
+        with:
+          path: internalchat
+
+      # The design system is a sibling folder (../lyra-ui) per vite.config.ts
+      - uses: actions/checkout@v4
+        with:
+          repository: lorinabinningnice/lyra-ui
+          path: lyra-ui
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install lyra-ui dependencies
+        working-directory: lyra-ui
+        run: npm ci
+
+      - name: Install app dependencies
+        working-directory: internalchat
+        run: npm ci
+
+      - name: Build
+        working-directory: internalchat
+        env:
+          GITHUB_ACTIONS: "true"
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: internalchat/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
