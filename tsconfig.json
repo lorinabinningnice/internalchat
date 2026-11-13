@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@nicecxone/lyra-ui": ["../lyra-ui/src/index.ts"],
+      "@nicecxone/lyra-ui/styles": ["../lyra-ui/src/styles/lyra-tokens.css"],
+      "@nicecxone/lyra-ui/agents-data": ["../lyra-ui/src/components/__stories__/create-new-agents-data.ts"],
+      "@nicecxone/lyra-ui/customers-data": ["../lyra-ui/src/components/__stories__/create-new-customers-data.ts"]
+    }
+  },
+  "include": ["src"]
+}
